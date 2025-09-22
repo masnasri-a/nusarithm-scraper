@@ -9,12 +9,20 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.responses import JSONResponse
 import uuid
 
-from ..models.auth import (
-    User, UserCreate, UserLogin, Token, TokenData, APITokenCreate, APIToken,
-    verify_password, get_password_hash, create_access_token, verify_token,
-    generate_api_token, ACCESS_TOKEN_EXPIRE_MINUTES
-)
-from ..db import template_store
+try:
+    from ..models.auth import (
+        User, UserCreate, UserLogin, Token, TokenData, APITokenCreate, APIToken,
+        verify_password, get_password_hash, create_access_token, verify_token,
+        generate_api_token, ACCESS_TOKEN_EXPIRE_MINUTES
+    )
+    from ..db import template_store
+except ImportError:
+    from app.models.auth import (
+        User, UserCreate, UserLogin, Token, TokenData, APITokenCreate, APIToken,
+        verify_password, get_password_hash, create_access_token, verify_token,
+        generate_api_token, ACCESS_TOKEN_EXPIRE_MINUTES
+    )
+    from app.db import template_store
 
 router = APIRouter(prefix="/auth", tags=["authentication"])
 security = HTTPBearer()

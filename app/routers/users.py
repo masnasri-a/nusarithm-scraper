@@ -4,9 +4,15 @@ User management endpoints for admin
 
 from fastapi import APIRouter, HTTPException, Depends, status
 from typing import List
-from ..models.auth import User
-from ..routers.auth import get_current_user, get_current_user_from_api_token
-from ..db import template_store
+
+try:
+    from ..models.auth import User
+    from ..routers.auth import get_current_user, get_current_user_from_api_token
+    from ..db import template_store
+except ImportError:
+    from app.models.auth import User
+    from app.routers.auth import get_current_user, get_current_user_from_api_token
+    from app.db import template_store
 
 router = APIRouter(prefix="/users", tags=["users"])
 

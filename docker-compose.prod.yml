@@ -5,7 +5,7 @@ services:
   scraper-api:
     build: 
       context: .
-      dockerfile: Dockerfile  # Use production dockerfile
+      dockerfile: Dockerfile.simple-backend  # Use simple dockerfile temporarily
     ports:
       - "6777:6777"
     env_file:
@@ -47,7 +47,7 @@ services:
   nginx:
     image: nginx:alpine
     ports:
-      - "80:80"
+      - "7777:80"
       - "443:443"
     volumes:
       - ./docker/nginx.prod.conf:/etc/nginx/nginx.conf:ro

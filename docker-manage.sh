@@ -85,8 +85,8 @@ start_prod() {
     check_env
     docker-compose -f docker-compose.prod.yml up -d
     log "Production environment started successfully!"
-    info "Application: http://localhost"
-    info "API: http://localhost/api"
+    info "Application: http://localhost:7777"
+    info "API: http://localhost:7777/api"
 }
 
 # Stop containers

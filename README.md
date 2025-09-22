@@ -90,28 +90,50 @@ docker-compose up -d
 curl http://localhost:8000/health
 ```
 
-### 2️⃣ Setup Manual
+### 2️⃣ Setup Manual (Development)
 
 ```bash
 # Install dependencies
 pip install -r requirements.txt
 
-# Install Playwright browsers
+# Install browser
 playwright install chromium
 
 # Setup environment
 cp .env.template .env
 # Edit dan masukkan OPENAI_API_KEY
 
-# Run API server
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+# Run API server (Option 1: Direct uvicorn)
+uvicorn app.main:app --reload --host 0.0.0.0 --port 6777
+
+# Run API server (Option 2: Using development script)
+chmod +x run_dev.sh
+./run_dev.sh
+
+# Run API server (Option 3: Using Python startup script)
+python start_server.py
+```
+
+### 📋 Testing Environment
+
+```bash
+# Test module imports
+python test_imports.py
+
+# Test API connectivity
+python test_connectivity.py
+
+# Test template creation
+python test_template_creation.py
 ```
 
 ### 3️⃣ Akses API
 
-- **API Documentation**: http://localhost:8000/docs
-- **Alternative Docs**: http://localhost:8000/redoc
-- **Health Check**: http://localhost:8000/health
+- **API Documentation**: http://localhost:6777/docs
+- **Alternative Docs**: http://localhost:6777/redoc
+- **Health Check**: http://localhost:6777/health
+- **Frontend (Development)**: http://localhost:3677
+- **Production Access (Nginx)**: http://localhost:7777
 
 ---
 
@@ -265,23 +287,39 @@ pytest tests/ -m integration
 docker build -t scraper-api .
 
 # Run container
-docker run -p 8000:8000 \
+docker run -p 6777:6777 \
   -e OPENAI_API_KEY=your_api_key \
   -v $(pwd)/data:/app/data \
   scraper-api
 ```
 
-### Docker Compose
+### Docker Compose Development
 
 ```bash
-# Development
+# Development with hot reloading
 docker-compose up -d
 
 # View logs
-docker-compose logs -f scraper-api
+docker-compose logs -f backend
+
+# Access services:
+# - Backend API: http://localhost:6777
+# - Frontend: http://localhost:3677
+```
+
+### Docker Compose Production
+
+```bash
+# Production with Nginx, PostgreSQL, Redis
+docker-compose -f docker-compose.prod.yml up -d
+
+# View logs
+docker-compose -f docker-compose.prod.yml logs -f
 
 # Scale API instances
-docker-compose up -d --scale scraper-api=3
+docker-compose -f docker-compose.prod.yml up -d --scale backend=3
+
+# Access via Nginx: http://localhost:7777
 ```
 
 ---

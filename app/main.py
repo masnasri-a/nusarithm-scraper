@@ -9,15 +9,27 @@ from fastapi.responses import JSONResponse
 from contextlib import asynccontextmanager
 import asyncio
 import os
+import sys
 from datetime import datetime
 from dotenv import load_dotenv
+
+# Add the parent directory to Python path to ensure proper imports
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+if parent_dir not in sys.path:
+    sys.path.append(parent_dir)
 
 # Load environment variables from .env file
 load_dotenv()
 
 # Import routers
-from .routers import training, scraping, auth, users
-from .models.schema import HealthResponse, ErrorResponse
+try:
+    from .routers import training, scraping, auth, users
+    from .models.schema import HealthResponse, ErrorResponse
+except ImportError:
+    # Fallback for different import contexts
+    from app.routers import training, scraping, auth, users
+    from app.models.schema import HealthResponse, ErrorResponse
 
 
 # Application metadata

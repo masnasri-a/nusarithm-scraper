@@ -7,14 +7,24 @@ from fastapi.responses import JSONResponse
 from typing import Dict, Any, Optional
 import asyncio
 
-from ..models.schema import (
-    ScrapeRequest,
-    ScrapeResponse, 
-    OutputFormat,
-    ErrorResponse
-)
-from ..services.template import TemplateManager
-from ..db import extract_domain
+try:
+    from ..models.schema import (
+        ScrapeRequest,
+        ScrapeResponse, 
+        OutputFormat,
+        ErrorResponse
+    )
+    from ..services.template import TemplateManager
+    from ..db import extract_domain
+except ImportError:
+    from app.models.schema import (
+        ScrapeRequest,
+        ScrapeResponse, 
+        OutputFormat,
+        ErrorResponse
+    )
+    from app.services.template import TemplateManager
+    from app.db import extract_domain
 
 
 router = APIRouter(prefix="/scrape", tags=["scraping"])

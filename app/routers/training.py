@@ -7,16 +7,28 @@ from fastapi.responses import JSONResponse
 from typing import Dict, Any
 import asyncio, traceback
 
-from ..models.schema import (
-    TrainingRequest, 
-    TrainingResponse, 
-    TemplateMapping,
-    TemplateInfo,
-    TemplateListResponse,
-    ErrorResponse
-)
-from ..services.template import TemplateManager
-from ..db import extract_domain, template_store
+try:
+    from ..models.schema import (
+        TrainingRequest, 
+        TrainingResponse, 
+        TemplateMapping,
+        TemplateInfo,
+        TemplateListResponse,
+        ErrorResponse
+    )
+    from ..services.template import TemplateManager
+    from ..db import extract_domain, template_store
+except ImportError:
+    from app.models.schema import (
+        TrainingRequest, 
+        TrainingResponse, 
+        TemplateMapping,
+        TemplateInfo,
+        TemplateListResponse,
+        ErrorResponse
+    )
+    from app.services.template import TemplateManager
+    from app.db import extract_domain, template_store
 
 
 router = APIRouter(prefix="/train", tags=["training"])

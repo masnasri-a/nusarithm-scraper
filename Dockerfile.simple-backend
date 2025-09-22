@@ -1,35 +1,15 @@
-# Development Dockerfile for AI-Assisted News Scraper API
+# Simple Production Dockerfile that should work reliably
 
 FROM python:3.11-slim
 
 # Set working directory
 WORKDIR /app
 
-# Install system dependencies including Playwright requirements
+# Install minimal system dependencies
 RUN apt-get update && apt-get install -y \
     curl \
     wget \
-    gnupg \
     ca-certificates \
-    fonts-liberation \
-    fonts-noto \
-    fonts-noto-color-emoji \
-    libasound2 \
-    libatk-bridge2.0-0 \
-    libatk1.0-0 \
-    libatspi2.0-0 \
-    libdrm2 \
-    libgbm1 \
-    libgtk-3-0 \
-    libnspr4 \
-    libnss3 \
-    libx11-xcb1 \
-    libxcomposite1 \
-    libxdamage1 \
-    libxrandr2 \
-    libxss1 \
-    libxkbcommon0 \
-    xdg-utils \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements and install Python dependencies
@@ -37,11 +17,20 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Install Playwright browsers without system dependencies (we installed them manually)
-RUN PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 playwright install-deps || true
+# Use a different approach - install Playwright system dependencies separately
+RUN apt-get update && apt-get install -y \
+    libnss3 \
+    libatk-bridge2.0-0 \
+    libdrm2 \
+    libgtk-3-0 \
+    libgbm1 \
+    libasound2 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install just the browser without system deps
 RUN playwright install chromium
 
-# Copy application code (only in dev, will be mounted)
+# Copy application code
 COPY app/ ./app/
 COPY example_templates/ ./example_templates/
 COPY start_server.py ./
@@ -56,8 +45,8 @@ RUN chown -R scraper:scraper /app
 # Set environment variables
 ENV PYTHONPATH=/app
 ENV DATABASE_PATH=/app/data/scraper.db
-ENV LOG_LEVEL=debug
-ENV ENVIRONMENT=development
+ENV LOG_LEVEL=info
+ENV ENVIRONMENT=production
 
 # Expose port
 EXPOSE 6777
@@ -69,5 +58,5 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
 # Switch to non-root user
 USER scraper
 
-# Run the application with auto-reload for development
-CMD ["python", "start_server.py", "--host", "0.0.0.0", "--port", "6777", "--reload"]
+# Run the application
+CMD ["python", "start_server.py", "--host", "0.0.0.0", "--port", "6777"]

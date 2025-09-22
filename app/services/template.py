@@ -7,9 +7,14 @@ from datetime import datetime
 from urllib.parse import urlparse
 import asyncio
 
-from ..db import template_store, extract_domain
-from .scraper import ScrapingEngine, analyze_page_structure
-from .llm_agent import LLMAgent, generate_template_with_llm
+try:
+    from ..db import template_store, extract_domain
+    from .scraper import ScrapingEngine, analyze_page_structure
+    from .llm_agent import LLMAgent, generate_template_with_llm
+except ImportError:
+    from app.db import template_store, extract_domain
+    from app.services.scraper import ScrapingEngine, analyze_page_structure
+    from app.services.llm_agent import LLMAgent, generate_template_with_llm
 
 
 class TemplateManager:

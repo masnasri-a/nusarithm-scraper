@@ -1,0 +1,104 @@
+# Alternative Production Dockerfile with better Playwright handling
+
+FROM python:3.11-slim as base
+
+# Set working directory
+WORKDIR /app
+
+# Install basic system dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    wget \
+    gnupg \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements and install Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Stage for installing Playwright with deps
+FROM base as playwright-installer
+
+# Install all required dependencies for Playwright
+RUN apt-get update && apt-get install -y \
+    # Core browser dependencies
+    libnss3 \
+    libatk-bridge2.0-0 \
+    libdrm2 \
+    libgtk-3-0 \
+    libgbm1 \
+    libasound2 \
+    # Font dependencies (with fallbacks)
+    fonts-liberation \
+    fonts-noto \
+    fonts-noto-color-emoji \
+    fonts-dejavu-core \
+    fontconfig \
+    # Additional dependencies
+    libxss1 \
+    libxrandr2 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxkbcommon0 \
+    libatspi2.0-0 \
+    libx11-xcb1 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Try to install Playwright with system deps, fall back to manual if needed
+RUN playwright install chromium || \
+    (echo "Falling back to manual Playwright installation..." && \
+     PLAYWRIGHT_BROWSERS_PATH=/tmp/playwright-browsers playwright install chromium)
+
+# Final production stage
+FROM base as production
+
+# Copy Playwright and its dependencies from installer stage
+COPY --from=playwright-installer /root/.cache/ms-playwright /root/.cache/ms-playwright
+COPY --from=playwright-installer /tmp/playwright-browsers /tmp/playwright-browsers
+
+# Install runtime dependencies only
+RUN apt-get update && apt-get install -y \
+    libnss3 \
+    libatk-bridge2.0-0 \
+    libdrm2 \
+    libgtk-3-0 \
+    libgbm1 \
+    libasound2 \
+    fonts-liberation \
+    fonts-noto \
+    libxss1 \
+    libxrandr2 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy application code
+COPY app/ ./app/
+COPY example_templates/ ./example_templates/
+
+# Create necessary directories
+RUN mkdir -p /app/data /app/logs
+
+# Create non-root user for security
+RUN groupadd -r scraper && useradd -r -g scraper -u 1000 scraper
+RUN chown -R scraper:scraper /app
+
+# Set environment variables
+ENV PYTHONPATH=/app
+ENV DATABASE_PATH=/app/data/scraper.db
+ENV LOG_LEVEL=info
+ENV ENVIRONMENT=production
+ENV PLAYWRIGHT_BROWSERS_PATH=/root/.cache/ms-playwright
+
+# Expose port
+EXPOSE 6777
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
+    CMD curl -f http://localhost:6777/health || exit 1
+
+# Switch to non-root user
+USER scraper
+
+# Run the application
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "6777", "--workers", "1"]
