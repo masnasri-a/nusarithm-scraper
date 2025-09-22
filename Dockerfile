@@ -55,14 +55,14 @@ ENV LOG_LEVEL=info
 ENV ENVIRONMENT=production
 
 # Expose port
-EXPOSE 8000
+EXPOSE 6777
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
-    CMD curl -f http://localhost:8000/health || exit 1
+    CMD curl -f http://localhost:6777/health || exit 1
 
 # Switch to non-root user
 USER scraper
 
 # Run the application
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "6777", "--workers", "1"]

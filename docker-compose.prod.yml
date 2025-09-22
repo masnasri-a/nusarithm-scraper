@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: Dockerfile  # Use production dockerfile
     ports:
-      - "8000:8000"
+      - "6777:6777"
     env_file:
       - .env
     volumes:
@@ -20,7 +20,7 @@ services:
     networks:
       - scraper-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:6777/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -30,53 +30,18 @@ services:
   scraper-frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile.simple
     env_file:
       - .env
     environment:
-      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost:8000}
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost:6777}
       - NODE_ENV=production
+      - PORT=3677
     restart: unless-stopped
     depends_on:
       - scraper-api
     networks:
       - scraper-network
-
-  # Redis for caching and session management
-  redis:
-    image: redis:7-alpine
-    volumes:
-      - redis_data:/data
-    restart: unless-stopped
-    networks:
-      - scraper-network
-    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-  # PostgreSQL database for production
-  postgres:
-    image: postgres:15-alpine
-    env_file:
-      - .env
-    environment:
-      - POSTGRES_DB=${POSTGRES_DB:-scraper_db}
-      - POSTGRES_USER=${POSTGRES_USER:-scraper}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
-    restart: unless-stopped
-    networks:
-      - scraper-network
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-scraper}"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
 
   # Nginx reverse proxy
   nginx:
@@ -104,10 +69,6 @@ volumes:
   scraper_data:
     driver: local
   scraper_logs:
-    driver: local
-  redis_data:
-    driver: local
-  postgres_data:
     driver: local
   nginx_logs:
     driver: local

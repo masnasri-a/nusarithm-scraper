@@ -21,7 +21,7 @@ RUN chown -R nextjs:nodejs /app
 USER nextjs
 
 # Expose port
-EXPOSE 3000
+EXPOSE 3677
 
 # Set environment variable
 ENV NODE_ENV=development
@@ -29,7 +29,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
-    CMD curl -f http://localhost:3000/api/health || exit 1
+    CMD curl -f http://localhost:3677/api/health || exit 1
 
 # Start the application in development mode
 CMD ["npm", "run", "dev"]

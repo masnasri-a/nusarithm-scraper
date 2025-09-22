@@ -74,9 +74,9 @@ start_dev() {
     check_env
     docker-compose -f docker-compose.yml up -d
     log "Development environment started successfully!"
-    info "API: http://localhost:8000"
-    info "Frontend: http://localhost:3000"
-    info "API Docs: http://localhost:8000/docs"
+    info "API: http://localhost:6777"
+    info "Frontend: http://localhost:3677"
+    info "API Docs: http://localhost:6777/docs"
 }
 
 # Production environment
