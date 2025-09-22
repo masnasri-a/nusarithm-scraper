@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Enable standalone output for Docker production builds
+  output: 'standalone',
+  
   // Better error handling and development settings
   onDemandEntries: {
     // period (in ms) where the server will keep pages in the buffer
