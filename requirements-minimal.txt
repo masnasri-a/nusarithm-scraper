@@ -1,0 +1,19 @@
+# Minimal requirements to avoid compilation issues
+# Install these first if you're having trouble with the main requirements.txt
+
+# Core web framework
+fastapi==0.104.1
+uvicorn==0.24.0
+
+# Basic dependencies that don't require compilation
+requests==2.31.0
+beautifulsoup4==4.12.2
+
+# OpenAI (no compilation needed)
+openai==1.6.1
+
+# Environment management
+python-dotenv==1.0.0
+
+# Testing
+httpx==0.26.0

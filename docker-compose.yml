@@ -1,0 +1,125 @@
+version: '3.8'
+
+services:
+  # Main API application
+  scraper-api:
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev  # Use development dockerfile for local development
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_PATH=/app/data/scraper.db
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - OPENAI_MODEL=${OPENAI_MODEL:-gpt-3.5-turbo}
+      - ZAI_API_KEY=${ZAI_API_KEY:-}
+      - ZAI_MODEL=${ZAI_MODEL:-meta-llama/Llama-3.2-3B-Instruct}
+      - LOG_LEVEL=${LOG_LEVEL:-debug}
+      - ENVIRONMENT=development
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-your-secret-key-change-in-production}
+      - JWT_ALGORITHM=${JWT_ALGORITHM:-HS256}
+      - ACCESS_TOKEN_EXPIRE_MINUTES=${ACCESS_TOKEN_EXPIRE_MINUTES:-30}
+    volumes:
+      - ./app:/app/app:ro  # Read-only mount for hot reloading
+      - ./example_templates:/app/example_templates:ro
+      - scraper_data:/app/data
+      - scraper_logs:/app/logs
+    restart: unless-stopped
+    depends_on:
+      - redis
+    networks:
+      - scraper-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # Frontend application (Next.js)
+  scraper-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+      - NODE_ENV=development
+    volumes:
+      - ./frontend:/app:delegated
+      - /app/node_modules
+      - /app/.next
+    restart: unless-stopped
+    depends_on:
+      - scraper-api
+    networks:
+      - scraper-network
+    command: npm run dev
+
+  # Redis for caching and session management
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    networks:
+      - scraper-network
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Optional: PostgreSQL database (uncomment if you want to use PostgreSQL instead of SQLite)
+  # postgres:
+  #   image: postgres:15-alpine
+  #   environment:
+  #     - POSTGRES_DB=${POSTGRES_DB:-scraper_db}
+  #     - POSTGRES_USER=${POSTGRES_USER:-scraper}
+  #     - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-scraper_password}
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   ports:
+  #     - "5432:5432"
+  #   restart: unless-stopped
+  #   networks:
+  #     - scraper-network
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-scraper}"]
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 3
+
+  # Optional: Nginx reverse proxy for production
+  # nginx:
+  #   image: nginx:alpine
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./docker/nginx.conf:/etc/nginx/nginx.conf:ro
+  #     - ./docker/ssl:/etc/nginx/ssl:ro
+  #   depends_on:
+  #     - scraper-api
+  #     - scraper-frontend
+  #   restart: unless-stopped
+  #   networks:
+  #     - scraper-network
+
+volumes:
+  scraper_data:
+    driver: local
+  scraper_logs:
+    driver: local
+  redis_data:
+    driver: local
+  # postgres_data:
+  #   driver: local
+
+networks:
+  scraper-network:
+    driver: bridge

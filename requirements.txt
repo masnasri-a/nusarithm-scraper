@@ -1,0 +1,54 @@
+# FastAPI and web framework dependencies
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+pydantic==2.5.2
+python-multipart==0.0.6
+
+# Authentication dependencies
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.6
+
+# Web scraping dependencies
+playwright==1.40.0
+beautifulsoup4==4.12.2
+requests==2.31.0
+aiohttp==3.9.1
+
+# SSL/TLS certificates
+certifi
+
+# Database dependencies
+# SQLite (built-in Python, but async version)
+aiosqlite==0.20.0
+
+# HTTP client for Z.AI API
+# aiohttp already included above
+
+# Utility libraries
+python-dateutil==2.8.2
+pytz==2023.3
+
+# Development and testing dependencies
+pytest==7.4.3
+pytest-asyncio==0.21.1
+httpx==0.26.0
+
+# Optional: Production server
+gunicorn==21.2.0
+
+# Optional: Environment management
+python-dotenv==1.0.0
+
+# Optional: Logging and monitoring
+structlog==23.2.0
+
+# Optional: Data validation and parsing
+validators==0.22.0
+
+# Optional: Text processing
+nltk==3.8.1
+textstat==0.7.3
+
+# Optional: Performance monitoring
+prometheus-client==0.19.0
