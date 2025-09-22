@@ -358,3 +358,5 @@ models/
 
 frontend/node_modules/
 frontend/.next/
+
+docker-compose.yml
