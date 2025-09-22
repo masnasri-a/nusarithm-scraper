@@ -1,54 +1,64 @@
-# FastAPI and web framework dependencies
-fastapi==0.104.1
-uvicorn[standard]==0.24.0
-pydantic==2.5.2
-python-multipart==0.0.6
-
-# Authentication dependencies
-python-jose[cryptography]==3.3.0
-passlib[bcrypt]==1.7.4
-python-multipart==0.0.6
-
-# Web scraping dependencies
-playwright==1.40.0
-beautifulsoup4==4.12.2
-requests==2.31.0
 aiohttp==3.9.1
-
-# SSL/TLS certificates
-certifi
-
-# Database dependencies
-# SQLite (built-in Python, but async version)
+aiosignal==1.4.0
 aiosqlite==0.20.0
-
-# HTTP client for Z.AI API
-# aiohttp already included above
-
-# Utility libraries
-python-dateutil==2.8.2
-pytz==2023.3
-
-# Development and testing dependencies
+annotated-types==0.7.0
+anyio==3.7.1
+attrs==25.3.0
+bcrypt==4.3.0
+beautifulsoup4==4.12.2
+certifi==2025.8.3
+charset-normalizer==3.4.3
+click==8.3.0
+distro==1.9.0
+dnspython==2.8.0
+ecdsa==0.19.1
+email-validator==2.3.0
+fastapi==0.104.1
+frozenlist==1.7.0
+greenlet==3.2.4
+h11==0.16.0
+httpcore==1.0.9
+httptools==0.6.4
+httpx==0.26.0
+idna==3.10
+iniconfig==2.1.0
+multidict==6.6.4
+openai==1.6.1
+packaging==25.0
+passlib==1.7.4
+playwright==1.55.0
+pluggy==1.6.0
+propcache==0.3.2
+pyasn1==0.6.1
+pydantic==2.11.9
+pydantic_core==2.33.2
+pyee==13.0.0
 pytest==7.4.3
 pytest-asyncio==0.21.1
-httpx==0.26.0
-
-# Optional: Production server
-gunicorn==21.2.0
-
-# Optional: Environment management
+pytest-base-url==2.1.0
+pytest-playwright==0.7.1
+python-dateutil==2.8.2
 python-dotenv==1.0.0
-
-# Optional: Logging and monitoring
-structlog==23.2.0
-
-# Optional: Data validation and parsing
-validators==0.22.0
-
-# Optional: Text processing
-nltk==3.8.1
-textstat==0.7.3
-
-# Optional: Performance monitoring
-prometheus-client==0.19.0
+python-jose==3.5.0
+python-multipart==0.0.6
+python-slugify==8.0.4
+pytz==2023.3
+PyYAML==6.0.2
+requests==2.31.0
+rsa==4.9.1
+setuptools==80.9.0
+six==1.17.0
+sniffio==1.3.1
+soupsieve==2.8
+starlette==0.27.0
+text-unidecode==1.3
+tqdm==4.67.1
+typing-inspection==0.4.1
+typing_extensions==4.15.0
+urllib3==2.5.0
+uvicorn==0.24.0
+uvloop==0.21.0
+watchfiles==1.1.0
+websockets==15.0.1
+wheel==0.45.1
+yarl==1.20.1
