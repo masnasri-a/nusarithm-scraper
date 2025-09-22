@@ -342,7 +342,6 @@ server.log
 # exports/
 
 # LLM model files (can be large)
-models/
 *.bin
 *.safetensors
 *.gguf
