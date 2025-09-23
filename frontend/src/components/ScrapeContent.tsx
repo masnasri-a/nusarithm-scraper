@@ -309,7 +309,7 @@ export default function ScrapeContent({ userLimits, onScrapeCompleted }: ScrapeC
                           <div className="mt-1 p-2 bg-white rounded border max-h-20 overflow-y-auto">
                             {typeof value === 'string' ? (
                               <div dangerouslySetInnerHTML={{ 
-                                __html: value.length > 200 ? value.substring(0, 200) + '...' : value 
+                                __html: value
                               }} />
                             ) : (
                               <pre className="text-xs">{JSON.stringify(value, null, 2)}</pre>
