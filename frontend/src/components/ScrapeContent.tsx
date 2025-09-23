@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import LoadingSpinner from '@/components/LoadingSpinner'
 import axios from 'axios'
+import { getApiUrl } from '@/lib/config'
 
 interface Template {
   id: string
@@ -52,7 +53,7 @@ export default function ScrapeContent({ userLimits, onScrapeCompleted }: ScrapeC
   const loadTemplates = async () => {
     try {
       const token = localStorage.getItem('auth_token')
-      const response = await axios.get('/api/backend/train/templates', {
+      const response = await axios.get(getApiUrl('/train/templates'), {
         headers: { Authorization: `Bearer ${token}` }
       })
       setTemplates(response.data.templates || [])
@@ -85,7 +86,7 @@ export default function ScrapeContent({ userLimits, onScrapeCompleted }: ScrapeC
       
       if (urlList.length === 1) {
         // Single URL scraping
-        const response = await axios.post('/api/backend/scrape/', {
+        const response = await axios.post(getApiUrl('/scrape'), {
           url: urlList[0],
           output_format: outputFormat,
           template_id: selectedTemplate || undefined
@@ -99,7 +100,7 @@ export default function ScrapeContent({ userLimits, onScrapeCompleted }: ScrapeC
         setResults([response.data])
       } else {
         // Batch scraping
-        const response = await axios.post('/api/backend/scrape/batch', {
+        const response = await axios.post(getApiUrl('/scrape/batch'), {
           urls: urlList,
           output_format: outputFormat,
           template_id: selectedTemplate || undefined,

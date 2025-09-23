@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import CreateTemplate from '@/components/CreateTemplate'
 import ScrapeContent from '@/components/ScrapeContent'
 import UsageStats from '@/components/UsageStats'
+import { getApiUrl } from '@/lib/config'
 
 interface Template {
   id: string
@@ -70,8 +71,8 @@ export default function DashboardPage() {
 
       console.log('🔄 Loading dashboard data...')
       const [templatesResponse, userResponse] = await Promise.all([
-        axios.get('/api/backend/train/templates', { headers }),
-        axios.get('/api/backend/users/me', { headers })
+        axios.get(getApiUrl('/train/templates'), { headers }),
+        axios.get(getApiUrl('/users/me'), { headers })
       ])
 
       console.log('📊 Templates response:', templatesResponse.data)
@@ -107,7 +108,7 @@ export default function DashboardPage() {
   const deleteTemplate = async (templateId: string) => {
     try {
       const token = localStorage.getItem('auth_token')
-      await axios.delete(`/api/backend/train/template/${templateId}`, {
+      await axios.delete(getApiUrl(`/train/template/${templateId}`), {
         headers: { Authorization: `Bearer ${token}` }
       })
       

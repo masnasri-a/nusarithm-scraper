@@ -11,20 +11,10 @@ const nextConfig = {
     pagesBufferLength: 2,
   },
 
+  // No rewrites needed - frontend directly calls https://scraper-api.nusarithm.id/
   async rewrites() {
-    // Determine the backend URL based on environment
-    const isDev = process.env.NODE_ENV === 'development';
-    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 
-                      (isDev ? 'http://localhost:6777' : 'https://scraper.nusarithm.id/api');
-    
-    console.log(`Next.js Rewrite: /api/backend/* -> ${backendUrl}/*`);
-    
-    return [
-      {
-        source: '/api/backend/:path*',
-        destination: `${backendUrl}/:path*`,
-      },
-    ]
+    console.log('No API rewrites - using direct backend URL');
+    return []
   },
 
   // Webpack configuration to avoid potential issues

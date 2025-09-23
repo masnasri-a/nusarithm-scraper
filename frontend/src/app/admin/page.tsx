@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
 import { Button } from '@/components/ui/button'
+import { getApiUrl } from '@/lib/config'
 
 interface User {
   id: string
@@ -51,7 +52,7 @@ export default function AdminPage() {
     }
 
     try {
-      const response = await axios.get('/api/backend/users/me', {
+      const response = await axios.get(getApiUrl('/users/me'), {
         headers: { Authorization: `Bearer ${token}` }
       })
       
@@ -103,7 +104,7 @@ export default function AdminPage() {
 
     try {
       const token = localStorage.getItem('auth_token')
-      const response = await axios.post('/api/backend/auth/tokens', {
+      const response = await axios.post(getApiUrl('/auth/tokens'), {
         name: tokenName,
         expires_in_days: 365
       }, {

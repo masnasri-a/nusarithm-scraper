@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import axios from 'axios'
+import { getApiUrl } from '@/lib/config'
 
 interface URLPreviewProps {
   url: string
@@ -21,7 +22,7 @@ export default function URLPreview({ url }: URLPreviewProps) {
 
     try {
       const token = localStorage.getItem('auth_token')
-      const response = await axios.get(`/api/backend/scrape/preview?url=${encodeURIComponent(url)}&show_selectors=true`, {
+      const response = await axios.get(getApiUrl(`/scrape/preview?url=${encodeURIComponent(url)}&show_selectors=true`), {
         headers: { Authorization: `Bearer ${token}` }
       })
 

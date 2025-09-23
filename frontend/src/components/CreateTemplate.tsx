@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import LoadingSpinner from '@/components/LoadingSpinner'
 import axios from 'axios'
+import { getApiUrl } from '@/lib/config'
 
 interface CreateTemplateProps {
   onTemplateCreated: () => void
@@ -44,7 +45,7 @@ export default function CreateTemplate({ onTemplateCreated, userLimits }: Create
 
     try {
       const token = localStorage.getItem('auth_token')
-      const response = await axios.post('/api/backend/train/', formData, {
+      const response = await axios.post(getApiUrl('/train'), formData, {
         headers: { 
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'

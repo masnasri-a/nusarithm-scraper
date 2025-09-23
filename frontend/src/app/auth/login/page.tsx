@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import axios from 'axios'
+import { getApiUrl } from '@/lib/config'
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -20,7 +21,7 @@ export default function LoginPage() {
     setError('')
 
     try {
-      const response = await axios.post('/api/backend/auth/login', formData)
+      const response = await axios.post(getApiUrl('/auth/login'), formData)
       
       // Store token
       localStorage.setItem('auth_token', response.data.access_token)

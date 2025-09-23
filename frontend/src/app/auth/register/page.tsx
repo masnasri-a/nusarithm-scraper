@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import axios from 'axios'
+import { getApiUrl } from '@/lib/config'
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -30,7 +31,7 @@ export default function RegisterPage() {
     }
 
     try {
-      const response = await axios.post('/api/backend/auth/register', {
+      const response = await axios.post(getApiUrl('/auth/register'), {
         username: formData.username,
         email: formData.email,
         password: formData.password
