@@ -69,6 +69,7 @@ export default function HomePage() {
                   <a href="#features" className="text-gray-600 hover:text-gray-900 px-3 py-2 text-sm font-medium">Features</a>
                   <a href="#templates" className="text-gray-600 hover:text-gray-900 px-3 py-2 text-sm font-medium">Templates</a>
                   <a href="#pricing" className="text-gray-600 hover:text-gray-900 px-3 py-2 text-sm font-medium">Pricing</a>
+                  <a href="https://bagibagi.co/masnasri" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-900 px-3 py-2 text-sm font-medium">Donate</a>
                   <Link href="/auth/login" className="text-blue-600 hover:text-blue-700 px-3 py-2 text-sm font-medium">
                     Login
                   </Link>
@@ -241,16 +242,20 @@ export default function HomePage() {
               <h2 className="text-4xl font-bold text-gray-900 mb-4">
                 Get started for free
               </h2>
-              <p className="text-xl text-gray-600">
-                Sign up free and start your 14-day premium trial
+              <p className="text-xl text-gray-600 w-5/12 mx-auto">
+                Sign up free and <span className='line-through'>start your 14-day premium trial</span> unlimitedly with our Free Trial plan.
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
               {/* Free Plan */}
               <div className="bg-white p-8 rounded-lg shadow-md">
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">Free Trial</h3>
-                <div className="text-4xl font-bold text-blue-600 mb-4">$0</div>
+                <div className="text-4xl font-bold text-blue-600 mb-4">
+                  <span className="line-through text-gray-400 text-2xl mr-2">$10</span>
+                  $0
+                  <span className="text-gray-400 text-2xl ml-1">/month</span>
+                </div>
                 <ul className="space-y-3 mb-8">
                   <li className="flex items-center text-gray-600">
                     <span className="text-green-500 mr-3">✓</span>
@@ -269,64 +274,32 @@ export default function HomePage() {
                   Start Free Trial
                 </Link>
               </div>
-
-              {/* Pro Plan */}
-              <div className="bg-white p-8 rounded-lg shadow-md border-2 border-blue-500 relative">
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
-                  Most Popular
+              {/* Donation Plan */}
+              <div className="bg-white p-8 rounded-lg shadow-md border-2 border-blue-600">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Supporter</h3>
+                <div className="text-4xl font-bold text-blue-600 mb-4">
+                  Donation what you want
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Professional</h3>
-                <div className="text-4xl font-bold text-blue-600 mb-4">$29</div>
                 <ul className="space-y-3 mb-8">
                   <li className="flex items-center text-gray-600">
                     <span className="text-green-500 mr-3">✓</span>
-                    Unlimited Templates
+                    unlimited Template Creations
                   </li>
                   <li className="flex items-center text-gray-600">
                     <span className="text-green-500 mr-3">✓</span>
-                    10,000 Scraping Requests
+                    100 Scraping Requests
                   </li>
                   <li className="flex items-center text-gray-600">
                     <span className="text-green-500 mr-3">✓</span>
-                    Advanced AI Features
+                    5 Template Creations
                   </li>
-                  <li className="flex items-center text-gray-600">
-                    <span className="text-green-500 mr-3">✓</span>
-                    Priority Support
-                  </li>
+                 
                 </ul>
-                <Link href="/auth/register" className="w-full bg-blue-600 text-white hover:bg-blue-700 py-3 rounded-lg font-semibold transition-colors block text-center">
-                  Start Pro Trial
+                <Link href="https://bagibagi.co/masnasri" className="w-full bg-blue-600 text-white hover:bg-blue-700 py-3 rounded-lg font-semibold transition-colors block text-center">
+                  Start Supporting
                 </Link>
+                </div>
               </div>
-
-              {/* Enterprise Plan */}
-              <div className="bg-white p-8 rounded-lg shadow-md">
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Enterprise</h3>
-                <div className="text-4xl font-bold text-blue-600 mb-4">Custom</div>
-                <ul className="space-y-3 mb-8">
-                  <li className="flex items-center text-gray-600">
-                    <span className="text-green-500 mr-3">✓</span>
-                    Unlimited Everything
-                  </li>
-                  <li className="flex items-center text-gray-600">
-                    <span className="text-green-500 mr-3">✓</span>
-                    Dedicated Support
-                  </li>
-                  <li className="flex items-center text-gray-600">
-                    <span className="text-green-500 mr-3">✓</span>
-                    Custom Integration
-                  </li>
-                  <li className="flex items-center text-gray-600">
-                    <span className="text-green-500 mr-3">✓</span>
-                    SLA & Security
-                  </li>
-                </ul>
-                <button className="w-full bg-gray-200 text-gray-800 hover:bg-gray-300 py-3 rounded-lg font-semibold transition-colors">
-                  Contact Sales
-                </button>
-              </div>
-            </div>
           </div>
         </section>
 
