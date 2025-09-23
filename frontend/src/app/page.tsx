@@ -60,7 +60,7 @@ export default function HomePage() {
               <div className="flex items-center">
                 <div className="flex-shrink-0">
                   <h1 className="text-xl font-bold text-gray-900">
-                    🤖 AI Scraper
+                    🌠 Nusarithm AI Scraper
                   </h1>
                 </div>
               </div>
@@ -96,9 +96,6 @@ export default function HomePage() {
                 <Link href="/auth/register" className="bg-blue-600 text-white hover:bg-blue-700 px-8 py-4 rounded-lg text-lg font-semibold transition-colors">
                   Start a free trial
                 </Link>
-                <button className="border border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-4 rounded-lg text-lg font-semibold transition-colors">
-                  Watch a demo
-                </button>
               </div>
               
               {/* Trust indicators */}
@@ -170,22 +167,12 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
                 {
                   title: 'News Scraper',
                   description: 'Extract news articles, titles, content, and metadata from news websites',
                   icon: '📰'
-                },
-                {
-                  title: 'E-commerce Scraper',
-                  description: 'Scrape product information, prices, reviews, and ratings from online stores',
-                  icon: '🛍️'
-                },
-                {
-                  title: 'Social Media Scraper',
-                  description: 'Extract posts, comments, profiles, and engagement data from social platforms',
-                  icon: '📱'
                 },
                 {
                   title: 'Job Listings Scraper',
@@ -348,7 +335,7 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-4 gap-8">
               <div>
-                <h3 className="text-lg font-semibold mb-4">🤖 AI Scraper</h3>
+                <h3 className="text-lg font-semibold mb-4">🌠 Nusarithm AI Scraper</h3>
                 <p className="text-gray-400 text-sm">
                   The no-code solution for intelligent web scraping powered by AI.
                 </p>
@@ -386,7 +373,7 @@ export default function HomePage() {
             </div>
 
             <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
-              <p>&copy; 2025 AI Scraper. All rights reserved.</p>
+              <p>&copy; 2025 Nusarithm AI Scraper. All rights reserved. | Aliendev</p>
             </div>
           </div>
         </footer>
