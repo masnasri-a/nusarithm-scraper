@@ -44,7 +44,7 @@ export default function CreateTemplate({ onTemplateCreated, userLimits }: Create
 
     try {
       const token = localStorage.getItem('auth_token')
-      const response = await axios.post('/api/backend/train', formData, {
+      const response = await axios.post('/api/backend/train/', formData, {
         headers: { 
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'

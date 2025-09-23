@@ -85,7 +85,7 @@ export default function ScrapeContent({ userLimits, onScrapeCompleted }: ScrapeC
       
       if (urlList.length === 1) {
         // Single URL scraping
-        const response = await axios.post('/api/backend/scrape', {
+        const response = await axios.post('/api/backend/scrape/', {
           url: urlList[0],
           output_format: outputFormat,
           template_id: selectedTemplate || undefined
