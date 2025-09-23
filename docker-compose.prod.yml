@@ -34,7 +34,7 @@ services:
     env_file:
       - .env
     environment:
-      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost:6777}
+      - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL:-https://scraper.nusarithm.id/api}
       - NODE_ENV=production
       - PORT=3677
     restart: unless-stopped

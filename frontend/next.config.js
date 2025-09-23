@@ -12,10 +12,17 @@ const nextConfig = {
   },
 
   async rewrites() {
+    // Determine the backend URL based on environment
+    const isDev = process.env.NODE_ENV === 'development';
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 
+                      (isDev ? 'http://localhost:6777' : 'https://scraper.nusarithm.id/api');
+    
+    console.log(`Next.js Rewrite: /api/backend/* -> ${backendUrl}/*`);
+    
     return [
       {
         source: '/api/backend/:path*',
-        destination: 'http://192.168.8.187:6777/:path*',
+        destination: `${backendUrl}/:path*`,
       },
     ]
   },
